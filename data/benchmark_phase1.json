@@ -1,0 +1,42 @@
+{
+  "device": "cpu",
+  "iterations": 10,
+  "warmup": 3,
+  "batch_size": 8,
+  "mobileclip2_s0": {
+    "model_name": "MobileCLIP2-S0",
+    "pretrained_tag": "dfndr2b",
+    "parameters_m": 74.84,
+    "memory_delta_mb": 573.3,
+    "text_latency_ms": {
+      "mean": 81.22,
+      "p50": 80.38,
+      "p95": 91.51
+    },
+    "image_latency_ms": {
+      "mean": 115.05,
+      "p50": 114.57,
+      "p95": 125.12
+    },
+    "throughput_texts_per_sec": 15.1,
+    "throughput_images_per_sec": 10.3
+  },
+  "vit_b_16": {
+    "model_name": "ViT-B-16",
+    "pretrained_tag": "openai",
+    "parameters_m": 149.62,
+    "memory_delta_mb": 372.3,
+    "text_latency_ms": {
+      "mean": 81.82,
+      "p50": 81.32,
+      "p95": 87.5
+    },
+    "image_latency_ms": {
+      "mean": 414.26,
+      "p50": 411.5,
+      "p95": 441.7
+    },
+    "throughput_texts_per_sec": 2.4,
+    "throughput_images_per_sec": 2.2
+  }
+}

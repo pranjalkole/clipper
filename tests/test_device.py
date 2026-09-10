@@ -1,4 +1,5 @@
 import torch
+
 from src.core.device import get_device
 
 
