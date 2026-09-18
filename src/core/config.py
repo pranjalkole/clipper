@@ -45,6 +45,10 @@ class Settings(BaseSettings):
     qdrant_api_key: str | None = None
     collection_name: str = "fashion_catalog"
 
+    # Dataset & Ingestion Pipeline
+    dataset_name: str = "ashraq/fashion-product-images-small"
+    ingestion_batch_size: int = 32
+
     # Search & Multi-Agent Reflection Thresholds
     min_confidence_score: float = 0.70
     top_k_candidates: int = 10
