@@ -259,6 +259,7 @@ class QdrantCatalogClient:
         filter_conditions: Filter | None = None,
         limit: int = 10,
         score_threshold: float | None = None,
+        with_vectors: bool = False,
     ) -> list[ScoredPoint]:
         """
         Executes vector nearest neighbor search with optional faceted boolean filtering.
@@ -268,6 +269,7 @@ class QdrantCatalogClient:
             filter_conditions: Optional Qdrant Filter.
             limit: Maximum number of points to retrieve.
             score_threshold: Minimum cosine similarity score.
+            with_vectors: Whether to return vector embeddings with retrieved points.
 
         Returns:
             List of ScoredPoint instances ranked by similarity.
@@ -279,7 +281,7 @@ class QdrantCatalogClient:
             limit=limit,
             score_threshold=score_threshold,
             with_payload=True,
-            with_vectors=False,
+            with_vectors=with_vectors,
         )
         return response.points
 
