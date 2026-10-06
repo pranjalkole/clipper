@@ -12,6 +12,8 @@ ENV/
 # Secrets & Config
 .env
 *.pem
+*key*
+gemini-api-key
 
 # Data & Checkpoints
 checkpoints/
