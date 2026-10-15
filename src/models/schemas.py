@@ -325,3 +325,75 @@ class AgentStateSchema(BaseModel):
     max_retries: int = 2
     reflection_notes: list[str] = Field(default_factory=list)
     final_response: str | None = None
+
+
+# Phase 5 API Request & Response Schemas
+class HealthResponse(BaseModel):
+    """Service health status and dependency checks."""
+
+    status: str = Field(default="healthy", description="Service health status ('healthy' or 'degraded')")
+    version: str = Field(default="0.1.0", description="Application version")
+    app_name: str = Field(default="Multimodal Search Platform")
+    environment: str = Field(default="development")
+    qdrant_connected: bool = Field(default=True)
+    embedder_loaded: bool = Field(default=True)
+    uptime_seconds: float = Field(default=0.0)
+    timestamp: float = Field(default=0.0)
+
+
+class TextSearchRequest(BaseModel):
+    """Request payload for text-to-image semantic search."""
+
+    query_text: str = Field(description="Search query string")
+    filters: SearchFilterParams | None = Field(default=None, description="Optional faceted scalar filters")
+    limit: int = Field(default=10, ge=1, le=100, description="Max candidates to return")
+    min_confidence_score: float | None = Field(default=None, ge=0.0, le=1.0)
+
+
+class ImageSearchRequest(BaseModel):
+    """Request payload for pure visual similarity search."""
+
+    query_image_base64: str | None = Field(default=None, description="Base64 encoded query image or data URI")
+    query_image_path: str | None = Field(default=None, description="Local image path")
+    filters: SearchFilterParams | None = Field(default=None, description="Optional faceted scalar filters")
+    limit: int = Field(default=10, ge=1, le=100, description="Max candidates to return")
+
+
+class IngestRequest(BaseModel):
+    """Request parameters to trigger dataset catalog indexing."""
+
+    limit: int | None = Field(default=100, ge=1, description="Number of items to ingest (None for all)")
+    batch_size: int = Field(default=32, ge=1, le=256, description="Batch size for embedding and upsert")
+    recreate: bool = Field(default=False, description="Whether to drop and recreate collection")
+    streaming: bool = Field(default=False, description="Stream dataset from HF")
+    dataset_name: str | None = Field(default=None, description="Hugging Face dataset identifier")
+    background: bool = Field(default=False, description="Run ingestion as background task")
+
+
+class IngestResponse(BaseModel):
+    """Ingestion result summary."""
+
+    status: str = Field(default="success")
+    items_indexed: int = Field(default=0)
+    elapsed_seconds: float = Field(default=0.0)
+    throughput_items_per_sec: float = Field(default=0.0)
+    collection_name: str = Field(default="fashion_catalog")
+    total_points: int = Field(default=0)
+    message: str | None = None
+
+
+class MetricsResponse(BaseModel):
+    """Real-time latency, throughput, token, and simulated cost metrics."""
+
+    total_requests: int = Field(default=0)
+    p50_latency_ms: float = Field(default=0.0)
+    p90_latency_ms: float = Field(default=0.0)
+    p95_latency_ms: float = Field(default=0.0)
+    p99_latency_ms: float = Field(default=0.0)
+    avg_latency_ms: float = Field(default=0.0)
+    tokens_per_sec: float = Field(default=0.0)
+    total_tokens_consumed: int = Field(default=0)
+    simulated_cost_usd: float = Field(default=0.0)
+    cost_per_query_usd: float = Field(default=0.0)
+    uptime_seconds: float = Field(default=0.0)
+
