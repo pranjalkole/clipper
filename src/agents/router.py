@@ -46,6 +46,28 @@ GENDER_MAP = {
     "unisex": "Unisex",
 }
 
+KNOWN_COLORS: dict[str, str] = {
+    "navy blue": "Navy Blue",
+    "navy": "Navy Blue",
+    "black": "Black",
+    "white": "White",
+    "blue": "Blue",
+    "red": "Red",
+    "grey": "Grey",
+    "gray": "Grey",
+    "green": "Green",
+    "yellow": "Yellow",
+    "pink": "Pink",
+    "purple": "Purple",
+    "brown": "Brown",
+    "beige": "Beige",
+    "orange": "Orange",
+    "maroon": "Maroon",
+    "olive": "Olive",
+    "gold": "Gold",
+    "silver": "Silver",
+}
+
 
 def _extract_heuristics(query_text: str) -> tuple[dict[str, Any], str]:
     """
@@ -102,7 +124,14 @@ def _extract_heuristics(query_text: str) -> tuple[dict[str, Any], str]:
             # Retain brand in semantic tokens for embedding, or leave as filter
             break
 
-    # 6. Master & Sub category
+    # 6. Color
+    for color_phrase, target_color in KNOWN_COLORS.items():
+        pattern = rf"\b{re.escape(color_phrase)}\b"
+        if re.search(pattern, text_lower):
+            filters["base_colour"] = target_color
+            break
+
+    # 7. Master & Sub category
     for master, keywords in KNOWN_MASTER_CATEGORIES.items():
         for kw in keywords:
             if re.search(rf"\b{re.escape(kw)}\b", text_lower):
@@ -164,6 +193,7 @@ def create_router_node(llm: BaseChatModel | None = None) -> Callable[[SearchAgen
                         '  "master_category": str or null,\n'
                         '  "sub_category": str or null,\n'
                         '  "gender": "Men"|"Women"|"Boys"|"Girls"|"Unisex" or null,\n'
+                        '  "base_colour": str or null,\n'
                         '  "brand": str or null,\n'
                         '  "min_price": float or null,\n'
                         '  "max_price": float or null,\n'

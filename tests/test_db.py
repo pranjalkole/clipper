@@ -235,6 +235,22 @@ def test_hybrid_filtering_multi_condition(in_memory_client: QdrantCatalogClient)
     assert results[0].payload["price"] <= 40.0
 
 
+def test_hybrid_filtering_color(in_memory_client: QdrantCatalogClient):
+    """Verifies base_colour filtering in QdrantCatalogClient."""
+    items = [
+        {"id": 1, "product_display_name": "Nike Black Shoe", "brand": "Nike", "base_colour": "Black"},
+        {"id": 2, "product_display_name": "Nike White Shoe", "brand": "Nike", "base_colour": "White"},
+    ]
+    embeddings = [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0]]
+    in_memory_client.upsert_catalog_items(items, embeddings)
+
+    f = in_memory_client.build_filter(brand="Nike", base_colour="Black")
+    results = in_memory_client.search([1.0, 0.0, 0.0, 0.0], filter_conditions=f)
+    assert len(results) == 1
+    assert results[0].id == 1
+    assert results[0].payload["base_colour"] == "Black"
+
+
 def test_hybrid_filtering_tags(in_memory_client: QdrantCatalogClient):
     """Verifies keyword tag matching."""
     items = [

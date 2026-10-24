@@ -385,6 +385,7 @@ class WISERComposedRetriever:
                 sub_category=request.filters.sub_category,
                 article_type=request.filters.article_type,
                 gender=request.filters.gender,
+                base_colour=request.filters.base_colour,
                 brand=request.filters.brand,
                 min_price=request.filters.min_price,
                 max_price=request.filters.max_price,

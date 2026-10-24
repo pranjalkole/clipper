@@ -66,10 +66,12 @@ def create_catalog_tools(
     def _catalog_hybrid_search(
         query_text: str | None = None,
         query_image: str | None = None,
-        master_category: str | None = None,
-        sub_category: str | None = None,
-        gender: str | None = None,
-        brand: str | None = None,
+        master_category: str | list[str] | None = None,
+        sub_category: str | list[str] | None = None,
+        article_type: str | list[str] | None = None,
+        gender: str | list[str] | None = None,
+        base_colour: str | list[str] | None = None,
+        brand: str | list[str] | None = None,
         min_price: float | None = None,
         max_price: float | None = None,
         min_rating: float | None = None,
@@ -106,7 +108,9 @@ def create_catalog_tools(
         qdrant_filter = catalog_client.build_filter(
             master_category=master_category,
             sub_category=sub_category,
+            article_type=article_type,
             gender=gender,
+            base_colour=base_colour,
             brand=brand,
             min_price=min_price,
             max_price=max_price,
@@ -135,10 +139,12 @@ def create_catalog_tools(
     def _catalog_composed_search(
         modification_text: str,
         reference_image: str | None = None,
-        master_category: str | None = None,
-        sub_category: str | None = None,
-        gender: str | None = None,
-        brand: str | None = None,
+        master_category: str | list[str] | None = None,
+        sub_category: str | list[str] | None = None,
+        article_type: str | list[str] | None = None,
+        gender: str | list[str] | None = None,
+        base_colour: str | list[str] | None = None,
+        brand: str | list[str] | None = None,
         min_price: float | None = None,
         max_price: float | None = None,
         min_rating: float | None = None,
@@ -152,7 +158,9 @@ def create_catalog_tools(
         filters = SearchFilterParams(
             master_category=master_category,
             sub_category=sub_category,
+            article_type=article_type,
             gender=gender,
+            base_colour=base_colour,
             brand=brand,
             min_price=min_price,
             max_price=max_price,
@@ -208,7 +216,13 @@ def create_catalog_tools(
 
 
 # Module-level default tool instances using singleton clients
-_default_tools = create_catalog_tools()
-catalog_hybrid_search = _default_tools[0]
-catalog_composed_search = _default_tools[1]
-product_details_lookup = _default_tools[2]
+try:
+    _default_tools = create_catalog_tools()
+    catalog_hybrid_search = _default_tools[0]
+    catalog_composed_search = _default_tools[1]
+    product_details_lookup = _default_tools[2]
+except Exception as _tool_err:  # noqa: BLE001
+    logger.debug("Deferred default tools initialization due to lock or configuration: %s", _tool_err)
+    catalog_hybrid_search = None  # type: ignore[assignment]
+    catalog_composed_search = None  # type: ignore[assignment]
+    product_details_lookup = None  # type: ignore[assignment]

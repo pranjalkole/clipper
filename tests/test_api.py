@@ -99,6 +99,31 @@ def test_metrics_endpoint(client):
     assert data["cost_per_query_usd"] > 0
 
 
+@patch("src.api.routes.get_image_store")
+def test_get_catalog_image_success(mock_get_store, client):
+    """Verifies GET /catalog/images/{id} returns JPEG bytes on success."""
+    mock_store = MagicMock()
+    mock_store.get_image_bytes.return_value = b"\xff\xd8\xff\xe0mock-jpeg-bytes"
+    mock_get_store.return_value = mock_store
+
+    response = client.get("/catalog/images/15970")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "image/jpeg"
+    assert response.content == b"\xff\xd8\xff\xe0mock-jpeg-bytes"
+
+
+@patch("src.api.routes.get_image_store")
+def test_get_catalog_image_not_found(mock_get_store, client):
+    """Verifies GET /catalog/images/{id} returns 404 when image is missing."""
+    mock_store = MagicMock()
+    mock_store.get_image_bytes.return_value = None
+    mock_get_store.return_value = mock_store
+
+    response = client.get("/catalog/images/9999999")
+    assert response.status_code == 404
+
+
+
 # ============================================================================
 # 2. Text Search Endpoint Tests
 # ============================================================================
@@ -292,7 +317,8 @@ def test_ingest_synchronous(mock_ingest, client):
     assert data["throughput_items_per_sec"] == 40.0
 
 
-def test_ingest_background_task(client):
+@patch("src.api.routes.ingest_catalog")
+def test_ingest_background_task(mock_ingest, client):
     """Verifies POST /ingest schedules background indexing when background=True."""
     payload = {"limit": 20, "background": True}
     response = client.post("/ingest", json=payload)

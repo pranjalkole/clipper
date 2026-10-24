@@ -113,6 +113,7 @@ class QdrantCatalogClient:
             ("article_type", PayloadSchemaType.KEYWORD),
             ("brand", PayloadSchemaType.KEYWORD),
             ("gender", PayloadSchemaType.KEYWORD),
+            ("base_colour", PayloadSchemaType.KEYWORD),
             ("season", PayloadSchemaType.KEYWORD),
             ("price", PayloadSchemaType.FLOAT),
             ("rating", PayloadSchemaType.FLOAT),
@@ -177,6 +178,7 @@ class QdrantCatalogClient:
         sub_category: str | list[str] | None = None,
         article_type: str | list[str] | None = None,
         gender: str | list[str] | None = None,
+        base_colour: str | list[str] | None = None,
         brand: str | list[str] | None = None,
         min_price: float | None = None,
         max_price: float | None = None,
@@ -185,7 +187,7 @@ class QdrantCatalogClient:
         tags: list[str] | None = None,
     ) -> Filter | None:
         """
-        Constructs a Qdrant Filter object combining category, brand, price, rating,
+        Constructs a Qdrant Filter object combining category, brand, color, price, rating,
         stock, and tag constraints.
         """
         conditions: list[FieldCondition] = []
@@ -208,6 +210,7 @@ class QdrantCatalogClient:
         _add_match_condition("sub_category", sub_category)
         _add_match_condition("article_type", article_type)
         _add_match_condition("gender", gender)
+        _add_match_condition("base_colour", base_colour)
         _add_match_condition("brand", brand)
 
         # Price range filter

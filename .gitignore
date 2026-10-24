@@ -18,6 +18,7 @@ gemini-api-key
 # Data & Checkpoints
 checkpoints/
 data/qdrant_storage/
+data/catalog_images/
 data/cache/
 *.pt
 *.bin

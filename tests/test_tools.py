@@ -92,6 +92,25 @@ def test_catalog_hybrid_search_text_query(mock_catalog_setup):
     assert results[0]["score"] > 0.90
 
 
+def test_catalog_hybrid_search_with_list_filters(mock_catalog_setup):
+    """Verifies catalog_hybrid_search accepts list filters without ValidationError."""
+    tool = mock_catalog_setup["tools"]["catalog_hybrid_search"]
+    results = tool.invoke(
+        {
+            "query_text": "running sneakers",
+            "master_category": ["Footwear"],
+            "sub_category": ["Shoes"],
+            "brand": ["Nike"],
+            "max_price": 150.0,
+        }
+    )
+
+    assert isinstance(results, list)
+    assert len(results) == 1
+    assert results[0]["id"] == 1
+    assert results[0]["brand"] == "Nike"
+
+
 def test_catalog_composed_search(mock_catalog_setup):
     """Verifies catalog_composed_search invoking WISER engine."""
     tool = mock_catalog_setup["tools"]["catalog_composed_search"]

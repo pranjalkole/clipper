@@ -18,6 +18,7 @@ from fastapi import (
     BackgroundTasks,
     HTTPException,
     Request,
+    Response,
     UploadFile,
     status,
 )
@@ -40,6 +41,7 @@ from src.models.schemas import (
     TextSearchRequest,
 )
 from src.models.wiser import WISERComposedRetriever
+from src.pipeline.image_store import get_image_store
 from src.pipeline.ingestion import ingest_catalog
 
 logger = logging.getLogger(__name__)
@@ -104,6 +106,32 @@ async def get_metrics() -> MetricsResponse:
     with trace_span("get_metrics"):
         tracker = get_metrics_tracker()
         return tracker.get_metrics_summary()
+
+
+@router.get(
+    "/catalog/images/{product_id}",
+    tags=["Catalog"],
+    summary="Retrieve catalog product image by ID from local dataset store",
+    response_class=Response,
+)
+async def get_catalog_image(product_id: int) -> Response:
+    """
+    Returns JPEG image bytes for the requested product ID.
+    Queries the local CatalogImageStore and caches JPEG bytes on disk.
+    """
+    with trace_span("get_catalog_image", attributes={"product_id": product_id}):
+        store = get_image_store()
+        img_bytes = store.get_image_bytes(product_id)
+        if not img_bytes:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Image for product ID {product_id} not found in catalog dataset.",
+            )
+        return Response(
+            content=img_bytes,
+            media_type="image/jpeg",
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
 
 
 # ============================================================================

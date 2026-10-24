@@ -22,6 +22,9 @@ class SearchFilterParams(BaseModel):
     gender: str | list[str] | None = Field(
         default=None, description="Target gender filter (e.g. Men, Women, Unisex, Boys, Girls)"
     )
+    base_colour: str | list[str] | None = Field(
+        default=None, description="Target color filter (e.g. Black, White, Navy Blue, Red)"
+    )
     brand: str | list[str] | None = Field(
         default=None, description="Brand name filter (e.g. Nike, Puma, Levi's)"
     )
@@ -64,6 +67,9 @@ class ProductCandidate(BaseModel):
     tags: list[str] = Field(default_factory=list, description="Descriptive search tags")
 
     # Retrieval Scoring & Attribution
+    image_url: str | None = Field(
+        default=None, description="Direct URL or API endpoint path to retrieve product image"
+    )
     score: float = Field(
         ge=-1.0, le=1.0, description="Normalized similarity or fused confidence score"
     )
@@ -105,6 +111,8 @@ class ProductCandidate(BaseModel):
         if rank is not None:
             data["rank"] = rank
         data["retrieval_path"] = retrieval_path
+        if "image_url" not in data or not data.get("image_url"):
+            data["image_url"] = f"/catalog/images/{data['id']}"
         for k, v in wiser_scores.items():
             if v is not None:
                 data[k] = float(v)
@@ -258,7 +266,15 @@ class SearchResponse(BaseModel):
     total_found: int = 0
     reasoning: str | None = None
     latency_ms: float = 0.0
-    filters_applied: dict[str, Any] | None = None
+    extracted_filters: dict[str, Any] | None = Field(
+        default=None, description="Initial scalar constraints extracted from user query by router"
+    )
+    filters_applied: dict[str, Any] | None = Field(
+        default=None, description="Active scalar constraints applied to catalog retrieval"
+    )
+    relaxed_filters: list[str] = Field(
+        default_factory=list, description="Filters relaxed or modified during reflection loops"
+    )
     reflection_notes: list[str] = Field(default_factory=list)
 
 
@@ -272,12 +288,14 @@ class CatalogHybridSearchInput(BaseModel):
     query_image: str | None = Field(
         default=None, description="Base64 string or file path of query image"
     )
-    master_category: str | None = Field(
+    master_category: str | list[str] | None = Field(
         default=None, description="Category filter (e.g. Apparel, Footwear, Accessories)"
     )
-    sub_category: str | None = Field(default=None, description="Sub-category filter (e.g. Topwear, Shoes)")
-    gender: str | None = Field(default=None, description="Gender filter (Men, Women, Unisex, etc.)")
-    brand: str | None = Field(default=None, description="Brand filter (e.g. Nike, Puma, Levi's)")
+    sub_category: str | list[str] | None = Field(default=None, description="Sub-category filter (e.g. Topwear, Shoes)")
+    article_type: str | list[str] | None = Field(default=None, description="Article type filter")
+    gender: str | list[str] | None = Field(default=None, description="Gender filter (Men, Women, Unisex, etc.)")
+    base_colour: str | list[str] | None = Field(default=None, description="Color filter (Black, White, Navy Blue, Red, etc.)")
+    brand: str | list[str] | None = Field(default=None, description="Brand filter (e.g. Nike, Puma, Levi's)")
     min_price: float | None = Field(default=None, ge=0.0, description="Minimum price")
     max_price: float | None = Field(default=None, ge=0.0, description="Maximum price")
     min_rating: float | None = Field(default=None, ge=1.0, le=5.0, description="Minimum rating")
@@ -294,10 +312,12 @@ class CatalogComposedSearchInput(BaseModel):
     modification_text: str = Field(
         description="Instruction modifying the reference product (e.g. 'same cut but in navy blue and under $60')"
     )
-    master_category: str | None = Field(default=None, description="Category filter")
-    sub_category: str | None = Field(default=None, description="Subcategory filter")
-    gender: str | None = Field(default=None, description="Gender filter")
-    brand: str | None = Field(default=None, description="Brand filter")
+    master_category: str | list[str] | None = Field(default=None, description="Category filter")
+    sub_category: str | list[str] | None = Field(default=None, description="Subcategory filter")
+    article_type: str | list[str] | None = Field(default=None, description="Article type filter")
+    gender: str | list[str] | None = Field(default=None, description="Gender filter")
+    base_colour: str | list[str] | None = Field(default=None, description="Color filter")
+    brand: str | list[str] | None = Field(default=None, description="Brand filter")
     min_price: float | None = Field(default=None, ge=0.0, description="Minimum price")
     max_price: float | None = Field(default=None, ge=0.0, description="Maximum price")
     min_rating: float | None = Field(default=None, ge=1.0, le=5.0, description="Minimum rating")

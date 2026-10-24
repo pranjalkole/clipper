@@ -138,3 +138,28 @@ def test_agent_state_schema():
     assert state.verified is False
     assert state.retry_count == 0
     assert state.max_retries == 2
+
+
+def test_tool_schemas_accept_list_and_string_filters():
+    """Validates that CatalogHybridSearchInput and CatalogComposedSearchInput accept list filters."""
+    hybrid_input = CatalogHybridSearchInput(
+        query_text="black running shoes",
+        master_category=["Footwear"],
+        sub_category=["Shoes"],
+        base_colour=["Black", "Dark Grey"],
+        brand=["Nike"],
+    )
+    assert hybrid_input.master_category == ["Footwear"]
+    assert hybrid_input.sub_category == ["Shoes"]
+    assert hybrid_input.base_colour == ["Black", "Dark Grey"]
+    assert hybrid_input.brand == ["Nike"]
+
+    composed_input = CatalogComposedSearchInput(
+        modification_text="same style in navy blue",
+        master_category=["Footwear"],
+        sub_category=["Shoes"],
+        base_colour=["Navy Blue"],
+        brand=["Nike"],
+    )
+    assert composed_input.master_category == ["Footwear"]
+    assert composed_input.base_colour == ["Navy Blue"]

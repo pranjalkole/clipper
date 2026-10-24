@@ -116,7 +116,9 @@ def run_search_agent(
         candidates=typed_candidates,
         total_found=len(typed_candidates),
         reasoning=output_state.get("final_response"),
+        extracted_filters=output_state.get("extracted_filters"),
         filters_applied=output_state.get("current_filters"),
+        relaxed_filters=output_state.get("relaxed_filters", []),
         reflection_notes=output_state.get("reflection_notes", []),
     )
 

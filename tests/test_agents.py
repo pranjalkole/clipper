@@ -141,6 +141,17 @@ def test_router_heuristic_extraction():
     assert "running shoes" in keywords
 
 
+def test_router_heuristic_color_extraction():
+    """Verifies heuristic extraction of base_colour from natural language queries."""
+    query = "Nike black running shoes under $100"
+    filters, keywords = _extract_heuristics(query)
+
+    assert filters.get("brand") == "Nike"
+    assert filters.get("base_colour") == "Black"
+    assert filters.get("max_price") == 100.0
+    assert filters.get("master_category") == "Footwear"
+
+
 def test_router_node_execution():
     """Verifies router node merges extracted filters with pre-existing filters."""
     router = create_router_node(llm=None)
@@ -231,6 +242,25 @@ def test_reflection_low_score_triggers_retry_and_relaxes_price():
     assert "max_price expanded" in result["relaxed_filters"][0]
 
 
+def test_reflection_relaxes_color_constraint():
+    """Verifies reflection node relaxes base_colour when candidates fail to meet confidence threshold."""
+    reflection = create_reflection_node(min_confidence_score=0.70, max_retries=2)
+    state = {
+        "candidates": [{"id": 1, "score": 0.35, "base_colour": "Black"}],
+        "current_filters": {"base_colour": "Black", "brand": "Nike"},
+        "relaxed_filters": [],
+        "retry_count": 0,
+        "extracted_keywords": "nike black running shoes",
+    }
+
+    result = reflection(state)
+    assert result["route"] == "retry"
+    assert result["retry_count"] == 1
+    assert "base_colour" not in result["current_filters"]
+    assert "dropped color constraint" in result["relaxed_filters"][0]
+    assert "Relaxed color constraint 'Black'" in result["reflection_notes"][0]
+
+
 def test_reflection_max_retries_safeguard():
     """Verifies reflection node halts retrying once max_retries is reached."""
     reflection = create_reflection_node(min_confidence_score=0.70, max_retries=2)
@@ -243,6 +273,35 @@ def test_reflection_max_retries_safeguard():
     result = reflection(state)
     assert result["route"] == "proceed"
     assert "Max reflection retries" in result["reflection_notes"][0]
+
+
+def test_reflection_metrics_with_list_filters():
+    """Verifies _compute_reflection_metrics properly matches when filters are lists."""
+    candidates = [
+        {
+            "id": 1,
+            "product_display_name": "Nike Men Lunarswift Black Shoe",
+            "master_category": "Footwear",
+            "sub_category": "Shoes",
+            "base_colour": "Black",
+            "brand": "Nike",
+            "gender": "Men",
+            "price": 55.0,
+            "rating": 4.0,
+            "score": 0.85,
+        }
+    ]
+    filters = {
+        "master_category": ["Footwear"],
+        "sub_category": ["Shoes"],
+        "base_colour": ["Black"],
+        "brand": ["Nike"],
+        "gender": ["Men"],
+    }
+    semantic_score, meta_score, composite_score = _compute_reflection_metrics(candidates, filters)
+    assert meta_score == 1.0
+    assert semantic_score > 0.80
+    assert composite_score > 0.80
 
 
 # =====================================================================
@@ -384,3 +443,77 @@ def test_run_search_agent_helper(test_catalog):
     assert response.total_found > 0
     assert response.candidates[0].brand == "Nike"
     assert response.reasoning is not None
+    assert response.extracted_filters is not None
+    assert response.extracted_filters.get("brand") == "Nike"
+
+
+def test_run_search_agent_preserves_extracted_color(test_catalog):
+    """Verifies that run_search_agent preserves extracted_filters with base_colour."""
+    graph = build_search_graph(
+        client=test_catalog["client"],
+        embedder=test_catalog["embedder"],
+        retriever=test_catalog["retriever"],
+        llm=None,
+    )
+
+    response = run_search_agent(
+        query_text="Nike black shoes under $100",
+        limit=3,
+        graph=graph,
+    )
+
+    assert response.extracted_filters is not None
+    assert response.extracted_filters.get("brand") == "Nike"
+    assert response.extracted_filters.get("base_colour") == "Black"
+    assert response.extracted_filters.get("max_price") == 100.0
+
+
+def test_reflection_node_zero_shot_color_drift_triggers_retry():
+    """Verifies that reflection triggers a retry with color filter when zero-shot image retrieval has color drift."""
+    node = create_reflection_node(min_confidence_score=0.70, max_retries=2)
+    state = {
+        "query_image": "data:image/jpeg;base64,fake-data",
+        "query_text": None,
+        "extracted_filters": {},
+        "current_filters": {},
+        "relaxed_filters": [],
+        "retry_count": 0,
+        "candidates": [
+            {"id": 1, "product_display_name": "Black Runner", "score": 0.95, "base_colour": "Black", "sub_category": "Shoes"},
+            {"id": 2, "product_display_name": "White Runner", "score": 0.79, "base_colour": "White", "sub_category": "Shoes"},
+            {"id": 3, "product_display_name": "White Sneaker", "score": 0.78, "base_colour": "White", "sub_category": "Shoes"},
+            {"id": 4, "product_display_name": "Grey Trainer", "score": 0.75, "base_colour": "Grey", "sub_category": "Shoes"},
+            {"id": 5, "product_display_name": "Pink Shoe", "score": 0.72, "base_colour": "Pink", "sub_category": "Shoes"},
+        ],
+    }
+
+    result = node(state)
+    assert result["route"] == "retry"
+    assert result["retry_count"] == 1
+    assert result["current_filters"].get("base_colour") == "Black"
+    assert result["current_filters"].get("sub_category") == "Shoes"
+    assert any("Visual drift critique" in note for note in result["reflection_notes"])
+
+
+def test_reflection_node_zero_shot_consistent_pool_proceeds():
+    """Verifies that reflection proceeds without retry when candidate pool is already color-consistent."""
+    node = create_reflection_node(min_confidence_score=0.70, max_retries=2)
+    state = {
+        "query_image": "data:image/jpeg;base64,fake-data",
+        "query_text": None,
+        "extracted_filters": {},
+        "current_filters": {},
+        "relaxed_filters": [],
+        "retry_count": 0,
+        "candidates": [
+            {"id": 1, "product_display_name": "Black Runner", "score": 0.95, "base_colour": "Black", "sub_category": "Shoes"},
+            {"id": 2, "product_display_name": "Black Sneaker", "score": 0.85, "base_colour": "Black", "sub_category": "Shoes"},
+            {"id": 3, "product_display_name": "Black Trainer", "score": 0.80, "base_colour": "Black", "sub_category": "Shoes"},
+            {"id": 4, "product_display_name": "Black Shoe", "score": 0.78, "base_colour": "Black", "sub_category": "Shoes"},
+            {"id": 5, "product_display_name": "Grey Shoe", "score": 0.72, "base_colour": "Grey", "sub_category": "Shoes"},
+        ],
+    }
+
+    result = node(state)
+    assert result["route"] == "proceed"
+    assert result["confidence_score"] >= 0.70
