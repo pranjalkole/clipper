@@ -1,0 +1,41 @@
+{
+  "timestamp": "2026-11-22T16:21:20Z",
+  "total_queries_evaluated": 50,
+  "cutoff_k": 10,
+  "naive_knn": {
+    "ndcg_at_10": 0.5214,
+    "recall_at_5": 0.3713,
+    "recall_at_10": 0.6132,
+    "mrr": 0.6988,
+    "latency_ms": {
+      "p50": 147.46,
+      "p90": 216.89,
+      "p95": 224.23,
+      "p99": 259.38,
+      "mean": 157.84,
+      "min": 58.11,
+      "max": 259.38
+    }
+  },
+  "multi_agent_rag": {
+    "ndcg_at_10": 0.6005,
+    "recall_at_5": 0.4329,
+    "recall_at_10": 0.7113,
+    "mrr": 0.7873,
+    "latency_ms": {
+      "p50": 536.67,
+      "p90": 778.59,
+      "p95": 801.03,
+      "p99": 819.21,
+      "mean": 543.96,
+      "min": 222.03,
+      "max": 819.21
+    }
+  },
+  "comparative_delta": {
+    "ndcg_at_10_improvement_pct": 15.17,
+    "recall_at_5_improvement_pct": 16.59,
+    "recall_at_10_improvement_pct": 16.0,
+    "mrr_improvement_pct": 12.66
+  }
+}

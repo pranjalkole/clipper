@@ -233,6 +233,38 @@ def test_search_image_missing_image(client):
     assert response.status_code == 422
 
 
+def test_search_knn_success(client):
+    """Verifies POST /search/knn executes naive 1-turn vector search."""
+    with patch("src.api.routes.get_embedder") as mock_get_embedder, patch(
+        "src.api.routes.get_qdrant_client"
+    ) as mock_get_qdrant:
+        mock_embedder = MagicMock()
+        mock_embedder.embed_text.return_value = [0.1] * 512
+        mock_get_embedder.return_value = mock_embedder
+
+        mock_client = MagicMock()
+        mock_point = MagicMock()
+        mock_point.payload = {
+            "id": 99,
+            "product_display_name": "Test Runner",
+            "price": 65.0,
+            "master_category": "Footwear",
+        }
+        mock_point.score = 0.92
+        mock_client.search.return_value = [mock_point]
+        mock_get_qdrant.return_value = mock_client
+
+        response = client.post(
+            "/search/knn",
+            json={"query_text": "running shoes", "limit": 5},
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["total_found"] == 1
+        assert data["candidates"][0]["id"] == 99
+        assert data["candidates"][0]["retrieval_path"] == "naive_knn"
+
+
 # ============================================================================
 # 4. Hybrid Composed Search (WISER CIR) Endpoint Tests
 # ============================================================================

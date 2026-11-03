@@ -35,7 +35,9 @@ from src.models.schemas import (
     ImageSearchRequest,
     IngestRequest,
     IngestResponse,
+    KNNSearchRequest,
     MetricsResponse,
+    ProductCandidate,
     SearchFilterParams,
     SearchResponse,
     TextSearchRequest,
@@ -176,6 +178,70 @@ async def search_text(request: TextSearchRequest) -> SearchResponse:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail=f"Semantic search failed: {exc}",
             ) from exc
+
+
+@router.post(
+    "/search/knn",
+    response_model=SearchResponse,
+    tags=["Search"],
+    summary="Naive 1-turn k-NN vector search baseline without router or reflection",
+)
+async def search_knn(request: KNNSearchRequest) -> SearchResponse:
+    """
+    Executes raw 1-turn vector nearest-neighbor search directly in Qdrant.
+    Bypasses LangGraph agent routing, metadata extraction, reflection, and synthesis.
+    Serves as an empirical baseline for comparative benchmarking.
+    """
+    t0 = time.perf_counter()
+    with trace_span("search.knn", attributes={"query": request.query_text, "limit": request.limit}):
+        embedder = get_embedder()
+        client = get_qdrant_client()
+
+        query_vector = None
+        if request.query_text:
+            query_vector = embedder.embed_text(request.query_text)
+        elif request.query_image_base64 or request.query_image_path:
+            req_helper = ComposedSearchRequest(
+                reference_image_base64=request.query_image_base64,
+                reference_image_path=request.query_image_path,
+                modification_text="reference",
+            )
+            img = req_helper.load_image()
+            if img:
+                query_vector = embedder.embed_image(img)
+
+        if query_vector is None:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Either query_text, query_image_base64, or query_image_path must be provided.",
+            )
+
+        scored_points = client.search(query_vector=query_vector, limit=request.limit)
+        elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+
+        candidates = [
+            ProductCandidate.from_payload_and_score(
+                payload=p.payload or {},
+                score=p.score,
+                rank=idx,
+                retrieval_path="naive_knn",
+            )
+            for idx, p in enumerate(scored_points, start=1)
+        ]
+
+        get_metrics_tracker().record_request(
+            latency_ms=elapsed_ms,
+            input_tokens=10,
+            output_tokens=10,
+        )
+
+        return SearchResponse(
+            query=request.query_text,
+            candidates=candidates,
+            total_found=len(candidates),
+            reasoning=f"Naive 1-turn k-NN retrieval returned {len(candidates)} candidates.",
+            latency_ms=elapsed_ms,
+        )
 
 
 @router.post(

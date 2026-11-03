@@ -1,0 +1,805 @@
+[
+  {
+    "query_id": "eval_text_01",
+    "query_type": "text",
+    "query_text": "black running shoes",
+    "relevant_ids": [
+      4524,
+      17416,
+      4343,
+      8913,
+      54127,
+      43367
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_text_02",
+    "query_type": "text",
+    "query_text": "men formal white shirts",
+    "relevant_ids": [
+      9452,
+      11143,
+      37812,
+      15984
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "gender": "Men",
+      "base_colour": "White"
+    }
+  },
+  {
+    "query_id": "eval_text_03",
+    "query_type": "text",
+    "query_text": "women casual summer tops",
+    "relevant_ids": [
+      57131,
+      51452,
+      58513,
+      33213
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "gender": "Women"
+    }
+  },
+  {
+    "query_id": "eval_text_04",
+    "query_type": "text",
+    "query_text": "chronograph wrist watch for men",
+    "relevant_ids": [
+      21713,
+      36905,
+      45258,
+      44970,
+      23278
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Watches",
+      "gender": "Men"
+    }
+  },
+  {
+    "query_id": "eval_text_05",
+    "query_type": "text",
+    "query_text": "leather handbag for women",
+    "relevant_ids": [
+      47395,
+      47957,
+      47392
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Bags",
+      "gender": "Women"
+    }
+  },
+  {
+    "query_id": "eval_text_06",
+    "query_type": "text",
+    "query_text": "men dark blue denim jeans",
+    "relevant_ids": [
+      39386,
+      11349,
+      39388
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Bottomwear",
+      "gender": "Men",
+      "base_colour": "Blue"
+    }
+  },
+  {
+    "query_id": "eval_text_07",
+    "query_type": "text",
+    "query_text": "sports flip flops",
+    "relevant_ids": [
+      49808,
+      15384,
+      21180
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Flip Flops"
+    }
+  },
+  {
+    "query_id": "eval_text_08",
+    "query_type": "text",
+    "query_text": "black polarized sunglasses",
+    "relevant_ids": [
+      28207,
+      51667,
+      16959
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Eyewear",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_text_09",
+    "query_type": "text",
+    "query_text": "women high heels",
+    "relevant_ids": [
+      54127,
+      55657,
+      11516,
+      10292
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "gender": "Women"
+    }
+  },
+  {
+    "query_id": "eval_text_10",
+    "query_type": "text",
+    "query_text": "men casual graphic t-shirt",
+    "relevant_ids": [
+      53759,
+      1855,
+      30805,
+      15970
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "gender": "Men"
+    }
+  },
+  {
+    "query_id": "eval_text_11",
+    "query_type": "text",
+    "query_text": "Puma men sports shoes under $120",
+    "relevant_ids": [
+      4524,
+      8913,
+      4523
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "brand": "Puma",
+      "gender": "Men",
+      "max_price": 120.0
+    }
+  },
+  {
+    "query_id": "eval_text_12",
+    "query_type": "text",
+    "query_text": "Fastrack black dial watch for women under $90",
+    "relevant_ids": [
+      43155,
+      59264
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "brand": "Fastrack",
+      "gender": "Women",
+      "base_colour": "Black",
+      "max_price": 90.0
+    }
+  },
+  {
+    "query_id": "eval_text_13",
+    "query_type": "text",
+    "query_text": "Ray-Ban black sunglasses for men",
+    "relevant_ids": [
+      28207
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "brand": "Ray-Ban",
+      "gender": "Men",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_text_14",
+    "query_type": "text",
+    "query_text": "Turtle men yellow casual shirt",
+    "relevant_ids": [
+      15984,
+      15970
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "brand": "Turtle",
+      "gender": "Men",
+      "base_colour": "Yellow"
+    }
+  },
+  {
+    "query_id": "eval_text_15",
+    "query_type": "text",
+    "query_text": "Baggit green handbag for women",
+    "relevant_ids": [
+      47395,
+      47392
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "brand": "Baggit",
+      "gender": "Women",
+      "base_colour": "Green"
+    }
+  },
+  {
+    "query_id": "eval_text_16",
+    "query_type": "text",
+    "query_text": "ADIDAS black flip flops for men",
+    "relevant_ids": [
+      21180,
+      15384
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "brand": "Adidas",
+      "gender": "Men",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_text_17",
+    "query_type": "text",
+    "query_text": "Lino Perros black leather belt under $80",
+    "relevant_ids": [
+      46075,
+      46072,
+      8121
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "brand": "Lino",
+      "gender": "Men",
+      "base_colour": "Black",
+      "max_price": 80.0
+    }
+  },
+  {
+    "query_id": "eval_text_18",
+    "query_type": "text",
+    "query_text": "Peter England blue jeans under $120",
+    "relevant_ids": [
+      39386,
+      39388,
+      11349
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "brand": "Peter England",
+      "gender": "Men",
+      "base_colour": "Blue",
+      "max_price": 120.0
+    }
+  },
+  {
+    "query_id": "eval_text_19",
+    "query_type": "text",
+    "query_text": "Titan silver watch for women under $70",
+    "relevant_ids": [
+      59263,
+      59264
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "brand": "Titan",
+      "gender": "Women",
+      "base_colour": "Silver",
+      "max_price": 70.0
+    }
+  },
+  {
+    "query_id": "eval_text_20",
+    "query_type": "text",
+    "query_text": "Catwalk black heels for women under $200",
+    "relevant_ids": [
+      11516,
+      55657,
+      54127
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "brand": "Catwalk",
+      "gender": "Women",
+      "base_colour": "Black",
+      "max_price": 200.0
+    }
+  },
+  {
+    "query_id": "eval_text_21",
+    "query_type": "text",
+    "query_text": "Puma sports shoes under $150",
+    "relevant_ids": [
+      4524,
+      8913,
+      4523,
+      3168
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "brand": "Puma",
+      "max_price": 150.0
+    }
+  },
+  {
+    "query_id": "eval_text_22",
+    "query_type": "text",
+    "query_text": "Reebok casual running shoes under $100",
+    "relevant_ids": [
+      43367,
+      4524,
+      3168
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "brand": "Reebok",
+      "max_price": 100.0
+    }
+  },
+  {
+    "query_id": "eval_text_23",
+    "query_type": "text",
+    "query_text": "women golden wedding heels under $180",
+    "relevant_ids": [
+      55657,
+      54127,
+      10292
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "gender": "Women",
+      "base_colour": "Gold",
+      "max_price": 180.0
+    }
+  },
+  {
+    "query_id": "eval_text_24",
+    "query_type": "text",
+    "query_text": "Fossil chronograph watch for men under $60",
+    "relevant_ids": [
+      21713,
+      36905,
+      45258
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "brand": "Fossil",
+      "gender": "Men",
+      "max_price": 60.0
+    }
+  },
+  {
+    "query_id": "eval_text_25",
+    "query_type": "text",
+    "query_text": "men formal black shoes under $160",
+    "relevant_ids": [
+      59435,
+      7364,
+      39972
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "gender": "Men",
+      "base_colour": "Black",
+      "max_price": 160.0
+    }
+  },
+  {
+    "query_id": "eval_text_26",
+    "query_type": "text",
+    "query_text": "men solid black track pants under $100",
+    "relevant_ids": [
+      21379,
+      49654,
+      57138
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Bottomwear",
+      "gender": "Men",
+      "base_colour": "Black",
+      "max_price": 100.0
+    }
+  },
+  {
+    "query_id": "eval_text_27",
+    "query_type": "text",
+    "query_text": "Lotto men black sports shoes under $100",
+    "relevant_ids": [
+      17416,
+      4524,
+      4343
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "brand": "Lotto",
+      "gender": "Men",
+      "base_colour": "Black",
+      "max_price": 100.0
+    }
+  },
+  {
+    "query_id": "eval_text_28",
+    "query_type": "text",
+    "query_text": "dunhill men fresh perfume under $50",
+    "relevant_ids": [
+      44142,
+      25978,
+      43967
+    ],
+    "target_criteria": {
+      "master_category": "Personal Care",
+      "brand": "dunhill",
+      "gender": "Men",
+      "max_price": 50.0
+    }
+  },
+  {
+    "query_id": "eval_text_29",
+    "query_type": "text",
+    "query_text": "men navy blue casual shirt under $100",
+    "relevant_ids": [
+      37812,
+      15970,
+      22395
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "gender": "Men",
+      "base_colour": "Navy Blue",
+      "max_price": 100.0
+    }
+  },
+  {
+    "query_id": "eval_text_30",
+    "query_type": "text",
+    "query_text": "women pink sports shoes under $120",
+    "relevant_ids": [
+      36137,
+      43367,
+      54127
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "gender": "Women",
+      "base_colour": "Pink",
+      "max_price": 120.0
+    }
+  },
+  {
+    "query_id": "eval_vis_01",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/3168.jpg",
+    "relevant_ids": [
+      3168,
+      42042,
+      4524,
+      17416
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes"
+    }
+  },
+  {
+    "query_id": "eval_vis_02",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/4524.jpg",
+    "relevant_ids": [
+      4524,
+      17416,
+      3168,
+      8913
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_vis_03",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/36137.jpg",
+    "relevant_ids": [
+      36137,
+      43367,
+      54127
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "gender": "Women"
+    }
+  },
+  {
+    "query_id": "eval_vis_04",
+    "query_image_path": "data/catalog_images/45258.jpg",
+    "query_type": "visual",
+    "relevant_ids": [
+      45258,
+      36905,
+      4716,
+      44970
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Watches",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_vis_05",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/4716.jpg",
+    "relevant_ids": [
+      4716,
+      45258,
+      36905,
+      30039
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Watches"
+    }
+  },
+  {
+    "query_id": "eval_vis_06",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/37812.jpg",
+    "relevant_ids": [
+      37812,
+      15970,
+      22395,
+      12190
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "gender": "Men"
+    }
+  },
+  {
+    "query_id": "eval_vis_07",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/26163.jpg",
+    "relevant_ids": [
+      26163,
+      57138,
+      49654,
+      39388
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Bottomwear"
+    }
+  },
+  {
+    "query_id": "eval_vis_08",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/11143.jpg",
+    "relevant_ids": [
+      11143,
+      11144,
+      9452,
+      37812
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_vis_09",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/42042.jpg",
+    "relevant_ids": [
+      42042,
+      3168,
+      4524,
+      8913
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes"
+    }
+  },
+  {
+    "query_id": "eval_vis_10",
+    "query_type": "visual",
+    "query_image_path": "data/catalog_images/17416.jpg",
+    "relevant_ids": [
+      17416,
+      4524,
+      4343,
+      8913
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_cir_01",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/3168.jpg",
+    "modification_text": "same running shoe in black colour",
+    "relevant_ids": [
+      4524,
+      17416,
+      4343
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_cir_02",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/4524.jpg",
+    "modification_text": "similar sports shoes in white or blue",
+    "relevant_ids": [
+      3168,
+      42042,
+      8913
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": [
+        "White",
+        "Blue"
+      ]
+    }
+  },
+  {
+    "query_id": "eval_cir_03",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/36137.jpg",
+    "modification_text": "similar sports shoes in black colour",
+    "relevant_ids": [
+      43367,
+      54127,
+      4524
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_cir_04",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/37812.jpg",
+    "modification_text": "same shirt in yellow or pink",
+    "relevant_ids": [
+      15984,
+      37212
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "base_colour": [
+        "Yellow",
+        "Pink"
+      ]
+    }
+  },
+  {
+    "query_id": "eval_cir_05",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/26163.jpg",
+    "modification_text": "similar formal trousers in black colour",
+    "relevant_ids": [
+      39388,
+      21379
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Bottomwear",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_cir_06",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/45258.jpg",
+    "modification_text": "similar watch with silver or blue dial",
+    "relevant_ids": [
+      21713,
+      59263,
+      44970
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Watches",
+      "base_colour": [
+        "Silver",
+        "Blue"
+      ]
+    }
+  },
+  {
+    "query_id": "eval_cir_07",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/4716.jpg",
+    "modification_text": "similar sports watch in white or off white",
+    "relevant_ids": [
+      23278,
+      44970,
+      59264
+    ],
+    "target_criteria": {
+      "master_category": "Accessories",
+      "sub_category": "Watches",
+      "base_colour": [
+        "White",
+        "Off White"
+      ]
+    }
+  },
+  {
+    "query_id": "eval_cir_08",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/11143.jpg",
+    "modification_text": "similar casual shirt in blue with stripes",
+    "relevant_ids": [
+      22395,
+      12190,
+      37812
+    ],
+    "target_criteria": {
+      "master_category": "Apparel",
+      "sub_category": "Topwear",
+      "base_colour": "Blue"
+    }
+  },
+  {
+    "query_id": "eval_cir_09",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/42042.jpg",
+    "modification_text": "similar athletic running shoe in black colour",
+    "relevant_ids": [
+      4524,
+      17416,
+      4343
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": "Black"
+    }
+  },
+  {
+    "query_id": "eval_cir_10",
+    "query_type": "composed",
+    "query_image_path": "data/catalog_images/17416.jpg",
+    "modification_text": "similar sports shoe in white colour",
+    "relevant_ids": [
+      3168,
+      42042,
+      8913
+    ],
+    "target_criteria": {
+      "master_category": "Footwear",
+      "sub_category": "Shoes",
+      "base_colour": "White"
+    }
+  }
+]

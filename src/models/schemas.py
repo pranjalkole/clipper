@@ -361,6 +361,17 @@ class HealthResponse(BaseModel):
     timestamp: float = Field(default=0.0)
 
 
+class KNNSearchRequest(BaseModel):
+    """Request payload for raw naive 1-turn vector nearest-neighbor search."""
+
+    query_text: str | None = Field(default=None, description="Raw text query string")
+    query_image_base64: str | None = Field(
+        default=None, description="Base64 encoded query image or data URI"
+    )
+    query_image_path: str | None = Field(default=None, description="Local image path")
+    limit: int = Field(default=10, ge=1, le=100, description="Max candidates to return")
+
+
 class TextSearchRequest(BaseModel):
     """Request payload for text-to-image semantic search."""
 
